@@ -1,6 +1,6 @@
 ---
 title: "Gov 50 Final Project"
-author: "Your Name Here"
+author: "Cory Norman"
 description: "My final project"
 output:
   distill::distill_article:
@@ -11,4 +11,4 @@ output:
 
 ## Project thoughts
 
-I am interested in exploring data related to...
+I am interested in exploring data related to the economic development of rural areas in the Midwest, where I am from. I would like to delve into the shifting industries in these areas and see how they correlate to individual poverty, lack of regional resources (infrastructure etc.), and perhaps how these things are connecting to how individuals in these areas vote, not only in respect to party lines but also regarding certain (relatively) non-partisan policy efforts that could improve their economic situations.
