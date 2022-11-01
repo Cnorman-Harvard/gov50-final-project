@@ -6,9 +6,21 @@ output:
   distill::distill_article:
     self_contained: false
 ---
+```{r setup, echo = false}
+library(tidyverse)
+library(ggplot2)
+```
+
+```{r}
+BEA <- read_csv("BEA.csv")
+```
+
 
 
 
 ## Project thoughts
 
 I am interested in exploring data related to the economic development of rural areas in the Midwest, where I am from. I would like to delve into the shifting industries in these areas and see how they correlate to individual poverty, lack of regional resources (infrastructure etc.), and perhaps how these things are connecting to how individuals in these areas vote, not only in respect to party lines but also regarding certain (relatively) non-partisan policy efforts that could improve their economic situations.
+
+PROPOSAL:
+How has the main industry in counties of Missouri affected the speed at which they recover post-COVID19? In this study, I plan to analyze data collected by the Bureau of Economic Analysis in the years leading up to, during, and after the COVID19 epidemic. I will split counties up based on their most prevalent industries and analyze statistics such as their GDP, levels of personal income, and proportion of state GDP they represent. I expect that regions with main industries such as manufacturing and retail will sink the lowest and have the slowest comeback as they rely on a lot of interpersonal interaction and a high volume of workers. Meanwhile, I expect industries like agriculture, mining and construction will display little sign of disturbance and rebound quickly compared to other industries. On the topic of healthcare, I expect it to be an outlier from the start, but I am interested to see how exactly it was affected. In the data, each county is specified via a GeoFips code and a GeoName, and each of those counties has the GDP value of each industry specified in seperate columns. To start, I will need to determine the top industry in each county by finding the max GDP value among all of the counties industries. The top industry of each county will be the explanatory variable. The observation variables will be the values of these industries over a period of 5 years. By comparing the rise and fall of chained GDP among industries, I will be able to determine which of these industries were affected the least and most. My hypothesis would be supported if the data showed that industries like manufacturing and retail had the highest decrease (proportional to higher years) in GDP among the counties that specialized in it, while areas that specialized in industries like agriculture or mining suffered the least proportional decrease. 
