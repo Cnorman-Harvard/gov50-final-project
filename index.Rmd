@@ -6,16 +6,6 @@ output:
   distill::distill_article:
     self_contained: false
 ---
-```{r setup, echo = FALSE}
-library(tidyverse)
-library(ggplot2)
-```
-
-```{r}
-BEA <- read_csv("BEA.csv")
-```
-
-
 
 
 ## Project thoughts
