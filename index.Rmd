@@ -8,9 +8,97 @@ output:
 ---
 
 
-## Project thoughts
+## Project Background
 
-I am interested in exploring data related to the economic development of rural areas in the Midwest, where I am from. I would like to delve into the shifting industries in these areas and see how they correlate to individual poverty, lack of regional resources (infrastructure etc.), and perhaps how these things are connecting to how individuals in these areas vote, not only in respect to party lines but also regarding certain (relatively) non-partisan policy efforts that could improve their economic situations.
+How has the main industry in counties of Missouri affected the speed at which they recover post-COVID19? In this study, I plan to analyze data collected by the Bureau of Economic Analysis in the years leading up to and during the COVID19 epidemic. I will split counties up based on their most prevalent industries and analyze statistics such as their GDP, levels of personal income, and proportion of state GDP they represent. I expect that regions with main industries such as manufacturing and retail will sink the lowest and have the slowest comeback as they rely on a lot of interpersonal interaction and a high volume of workers. Meanwhile, I expect industries like agriculture, mining and construction will display little sign of disturbance and may even prosper compared to other industries. On the topic of healthcare, I expect it to be an outlier from the start, but I am interested to see how exactly it was affected. In the data, each county is specified via a GeoFips code and a GeoName, and each of those counties has the GDP value of each industry specified in seperate columns. To start, I will need to determine the top industry in each county by finding the max GDP value among all of the counties industries. The top industry of each county will be the explanatory variable. The observation variables will be the values of these industries over a period of 6 years. By comparing the rise and fall of chained GDP among industries, I will be able to determine which of these industries were affected the least and most. My hypothesis would be supported if the data showed that industries like manufacturing and retail had the highest decrease (proportional to higher years) in GDP among the counties that specialized in it, while areas that specialized in industries like agriculture or mining suffered the least proportional decrease. 
 
-PROPOSAL:
-How has the main industry in counties of Missouri affected the speed at which they recover post-COVID19? In this study, I plan to analyze data collected by the Bureau of Economic Analysis in the years leading up to, during, and after the COVID19 epidemic. I will split counties up based on their most prevalent industries and analyze statistics such as their GDP, levels of personal income, and proportion of state GDP they represent. I expect that regions with main industries such as manufacturing and retail will sink the lowest and have the slowest comeback as they rely on a lot of interpersonal interaction and a high volume of workers. Meanwhile, I expect industries like agriculture, mining and construction will display little sign of disturbance and rebound quickly compared to other industries. On the topic of healthcare, I expect it to be an outlier from the start, but I am interested to see how exactly it was affected. In the data, each county is specified via a GeoFips code and a GeoName, and each of those counties has the GDP value of each industry specified in seperate columns. To start, I will need to determine the top industry in each county by finding the max GDP value among all of the counties industries. The top industry of each county will be the explanatory variable. The observation variables will be the values of these industries over a period of 5 years. By comparing the rise and fall of chained GDP among industries, I will be able to determine which of these industries were affected the least and most. My hypothesis would be supported if the data showed that industries like manufacturing and retail had the highest decrease (proportional to higher years) in GDP among the counties that specialized in it, while areas that specialized in industries like agriculture or mining suffered the least proportional decrease. 
+```{r setup, echo = FALSE}
+library(tidyverse)
+library(ggplot2)
+```
+```{r}
+BEA <- read_csv("BEA.csv")
+BEA
+```
+```{r}
+BEA <- BEA |>
+  select(GeoName, Description:'2020')|>
+  type_convert(na = "(D)",col_types = (cols(
+    '2015' = col_double(),
+    '2016' = col_double(),
+    '2017' = col_double(),
+    '2018' = col_double(),
+    '2019' = col_double(),
+    '2020' = col_double()
+  )))
+```
+
+```{r}
+industry_by_county <- BEA |>
+  filter(Description != "All industry total", Description != "Private industries", Description != "Private services-providing industries 3/", Description != "Private goods-producing industries 2/", GeoName != "Missouri")
+industry_by_county[is.na(industry_by_county)] = 0
+```
+  
+```{r}
+industry_by_county <- industry_by_county|>
+ group_by(GeoName)|>
+  slice(which.max(`2019`))
+industry_by_county
+```
+
+ 
+
+```{r}
+industry_plot <- industry_by_county |>
+  ggplot(mapping = aes(x = Description)) +
+  geom_bar()+
+  theme(axis.text.x=element_text(angle=45,hjust=1))
+industry_plot
+```
+```{r}
+BEA_adj = BEA |>
+   filter(Description != "All industry total", Description != "Private industries", Description != "Private services-providing industries 3/", Description != "Private goods-producing industries 2/", GeoName != "Missouri")
+BEA_adj[is.na(BEA_adj)] = 0
+```
+
+```{r}
+yearly_gdp <- BEA_adj|>
+  mutate(five_yr_avg = (`2015`+`2016`+`2017`+`2018`+`2019`)/5)|>
+  select(GeoName, Description, `2020`, five_yr_avg)|>
+  pivot_longer(cols = c('2020', 'five_yr_avg'), names_to = 'year', values_to = "GDP")
+yearly_gdp
+yearly_gdp_plot = yearly_gdp |>
+  filter(Description != "Finance, insurance, real estate, rental, and leasing")|>
+  ggplot(mapping = aes(x = Description, y = GDP / 1000000, fill = factor(year, levels = c("five_yr_avg", "2020")))) +
+  geom_col(position = "dodge")+
+  theme(axis.text.x=element_text(angle=45,hjust=1)) +
+  labs(
+    y = "GDP in Millions of Dollars",
+    fill = "Time Frame"
+  ) +
+  scale_fill_discrete(
+    labels = c("2015-2019", "2020")
+  )
+yearly_gdp_plot
+```
+```{r}
+yearly_gdp_best <- industry_by_county |>
+    mutate(five_yr_avg = (`2015`+`2016`+`2017`+`2018`+`2019`)/5)|>
+  select(GeoName, Description, `2020`, five_yr_avg)|>
+  pivot_longer(cols = c('2020', 'five_yr_avg'), names_to = 'year', values_to = "GDP")
+yearly_gdp_best
+yearly_gdp_best_plot = yearly_gdp_best |>
+  filter(Description != "Finance, insurance, real estate, rental, and leasing")|>
+  ggplot(mapping = aes(x = Description, y = GDP / 1000000, fill = factor(year, levels = c("five_yr_avg", "2020")))) +
+  geom_col(position = "dodge")+
+  theme(axis.text.x=element_text(angle=45,hjust=1)) +
+  labs(
+    y = "GDP in Millions of Dollars",
+    fill = "Time Frame"
+  ) +
+  scale_fill_discrete(
+    labels = c("2015-2019", "2020")
+  )
+yearly_gdp_best_plot
+```
+
