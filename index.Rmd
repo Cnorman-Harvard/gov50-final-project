@@ -9,13 +9,16 @@ output:
 
 ## Project Background
 
-How has the main industry in counties of Missouri affected the magnitude of loss in GDP? In this study, I plan to analyze data collected by the Bureau of Economic Analysis in the years leading up to and during the COVID19 epidemic. I will split counties up based on their most prevalent industries and analyze each counties loss of GDP for their main industry, compared to their five year average in the years leading up to the pandemic. I expect that regions with main industries such as manufacturing and retail will sink the lowest and have the slowest comeback as they rely on a lot of interpersonal interaction and a high volume of workers. Meanwhile, I expect industries like agriculture, mining and construction will display little sign of disturbance and may even prosper compared to other industries. On the topic of healthcare, I expect it to be an outlier from the start, but I am interested to see how exactly it was affected. In the data, each county is specified via a GeoFips code and a GeoName, and each of those counties has the GDP value of each industry specified in separate columns. To start, I will need to determine the top industry in each county by finding the max GDP value among all of the counties industries. I will also display the levels of rise/fall of GDP among each industry in the state overall, for comparison. The top industry of each county will be the explanatory variable. The observation variables will be the values of these industries between the years leading up to 2020 and 2020 itself. By comparing the rise and fall of chained GDP among industries, I will be able to determine which of these industries were affected the least and most. My hypothesis would be supported if the data showed that industries like manufacturing and retail had the highest decrease (proportional to higher years) in GDP among the counties that specialized in it, while areas that specialized in industries like agriculture or mining suffered the least proportional decrease.
+How has the pandemic affected different industries in Missouri? In this study, I plan to analyze data collected by the Bureau of Economic Analysis in the years leading up to and during the COVID19 epidemic. I will split GDP revenue up by industry and determine how that GDP volume changed between 2019 and 2020 (the first year the pandemic impacted Missouri). I expect that industries such as manufacturing and retail will sink the lowest in response to the pandemic as they rely on a lot of interpersonal interaction and a high volume of workers. Meanwhile, I expect industries like agriculture, mining and construction will display little sign of disturbance and may even prosper compared to other industries. On the topic of healthcare, I expect it to be an outlier from the start, but I am interested to see how exactly it was affected. In the data, each county is specified via a GeoFips code and a GeoName, and each of those counties has the GDP value of each industry specified in separate columns. To start, I will need to look at how each industry compares to others in terms of GDP and how that value varied among the years 2019 and 2020, using a bar graph. I will also display the levels of rise/fall of GDP among each industry in the state overall with a line graph, for easier comparison. The industry will be the explanatory variable. The observation variables will be the values of these industries between 2019 and 2020 itself. By comparing the rise and fall of chained GDP among industries, I will be able to determine which of these industries were affected the least and most. I will then run a regression using these variables, to prove or disprove the statistical significance of the effect the pandemic had on Missouri industry. My hypothesis would be supported if the data showed that industries were effected significantly, and if industries like manufacturing and retail had the highest decrease (proportional to higher years) in GDP among the counties that specialized in it, while areas that specialized in industries like agriculture or mining suffered the least proportional decrease.
 
 ```{r setup, echo = FALSE}
 library(tidyverse)
 library(ggplot2)
 ```
 
+##Data Source
+
+This data was collected and made publicly available by the Bureau of Economic Analysis (BEA). Most of this data comes from 360 surveys and other data collections sponsored by other Federal agencies, that is, from statistical agencies, aggregate tax data sources, administrative and regulatory sources, and private trade sources. The key independent variable (industries in Missouri) were gathered via federal survey. The key dependent variable (GDP by industry) was collected in the same manner. Since this data was collected via state-sponsored survey, and was mandatory, it is almost certain that this data source is trustworthy and accurate. However, in this data set there exists several values of (D), which indicate a suppression of data for the purpose of concealing confidential information of business establishments that could prove harmful if leaked publicly. For the purposes of this study, (D) values have been replaced with NA to strategically omit them from any conclusions. It is important to note that the years provided in this data set are Fiscal years and not calendar years.
 ```{r}
 BEA <- read_csv("BEA.csv")
 BEA
@@ -33,100 +36,6 @@ BEA <- BEA |>
     '2020' = col_double()
   )))
 ```
-
-```{r}
-industry_by_county <- BEA |>
-  filter(Description != "All industry total", Description != "Private industries", Description != "Private services-providing industries 3/", Description != "Private goods-producing industries 2/", GeoName != "Missouri")
-industry_by_county[is.na(industry_by_county)] = 0
-```
-
-```{r}
-industry_by_county <- industry_by_county|>
-  filter(`2015` != 0, `2016` != 0,`2017` != 0,`2018` != 0,`2019` != 0, `2020` != 0)|>
- group_by(GeoName)|>
-  slice(which.max(mean(`2015`:`2019`)))
-industry_by_county
-```
-
-```{r}
-industry_plot <- industry_by_county |>
-  ggplot(mapping = aes(x = Description)) +
-  geom_bar()+
-  theme(axis.text.x=element_text(angle=45,hjust=1))
-industry_plot
-```
-
-```{r}
-BEA_adj = BEA |>
-   filter(Description != "All industry total", Description != "Private industries", Description != "Private services-providing industries 3/", Description != "Private goods-producing industries 2/", GeoName != "Missouri")
-BEA_adj[is.na(BEA_adj)] = 0
-BEA_adj <- BEA_adj |>
-   filter(`2015` != 0, `2016` != 0,`2017` != 0,`2018` != 0,`2019` != 0, `2020` != 0)
-```
-
-```{r}
-yearly_gdp <- BEA_adj|>
-  mutate(five_yr_avg = (`2015`+`2016`+`2017`+`2018`+`2019`)/5)|>
-  select(GeoName, Description, `2020`, five_yr_avg)|>
-  pivot_longer(cols = c('2020', 'five_yr_avg'), names_to = 'year', values_to = "GDP")
-yearly_gdp
-yearly_gdp_plot = yearly_gdp |>
-  filter(Description != "Finance, insurance, real estate, rental, and leasing")|>
-  ggplot(mapping = aes(x = Description, y = GDP / 1000000, fill = factor(year, levels = c("five_yr_avg", "2020")))) +
-  geom_col(position = "dodge")+
-  theme(axis.text.x=element_text(angle=45,hjust=1)) +
-  labs(
-    y = "GDP in Millions of Dollars",
-    fill = "Time Frame"
-  ) +
-  scale_fill_discrete(
-    labels = c("2015-2019", "2020")
-  )
-yearly_gdp_plot
-```
-
-```{r}
-yearly_gdp_best <- industry_by_county |>
-    mutate(five_yr_avg = mean(`2015`:`2019`))|>
-  select(GeoName, Description, `2020`, five_yr_avg)|>
-  pivot_longer(cols = c('2020', 'five_yr_avg'), names_to = 'year', values_to = "GDP")
-yearly_gdp_best
-yearly_gdp_best_plot = yearly_gdp_best |>
-  filter(Description != "Finance, insurance, real estate, rental, and leasing")|>
-  ggplot(mapping = aes(x = Description, y = GDP / 1000000, fill = factor(year, levels = c("five_yr_avg", "2020")))) +
-  geom_col(position = "dodge")+
-  theme(axis.text.x=element_text(angle=45,hjust=1)) +
-  labs(
-    y = "GDP in Millions of Dollars",
-    fill = "Time Frame"
-  ) +
-  scale_fill_discrete(
-    labels = c("2015-2019", "2020")
-  )
-yearly_gdp_best_plot
-```
-
-```{r}
-BEA_yrs <- BEA_adj |>
-  filter(`2015` != 0, `2016` != 0,`2017` != 0,`2018` != 0,`2019` != 0, `2020` != 0)|>
-  mutate(five_yr_avg = ((`2015`+`2016`+`2017`+`2018`+`2019`)/5), ATE = (`2020` - five_yr_avg))
-  
-BEA_yrs
-```
-
-```{r}
-BEA_scatter <- BEA_yrs |>
-  ggplot(mapping = aes(x = Description, y = ATE, color = Description)) +
-  geom_point()+
-  geom_line(mapping = aes(group = Description), alpha = 0.25)+
-  theme(legend.position = "bottom")+
-  geom_smooth(method = 'lm', formula = y~x, aes(group = Description))
-BEA_scatter
-```
-```{r}
-fit <- lm(ATE ~ Description, data = BEA_yrs)
-coef(fit)
-```
 ```{r}
 BEA_reg <- BEA |>
   select(GeoName, Description, `2019`, `2020`)|>
@@ -134,17 +43,86 @@ BEA_reg <- BEA |>
   pivot_longer(cols = c(`2019`, `2020`), names_to = "year", values_to = "GDP")
 BEA_reg
 ```
+Here, you can see the range of industries this study covers and their values, relative to each other and the year.
+
+
 ```{r}
-library(modelsummary)
-fit = lm(GDP ~ as.factor(year) + Description + GeoName, data = BEA_reg)
-modelsummary(fit, stars = TRUE)
+yearly_gdp_plot <- BEA_reg|>
+  ggplot(mapping = aes(x = Description, y = GDP / 1000000, fill = factor(year, levels = c("2019", "2020")))) +
+  geom_col(position = "dodge")+
+  theme(axis.text.x=element_text(angle=45,hjust=1)) +
+  labs(
+    x = "Industry",
+    y = "GDP in Millions of Dollars",
+    fill = "Year"
+  ) +
+  scale_fill_discrete(
+    labels = c("2019", "2020")
+  )
+yearly_gdp_plot
 ```
+The purpose of this graph is to highlight the trends of each industry on a closer level between 2019 and 2020. As you can see, there are several examples of both upwards and downwards trends. To further analyze the relationship between COVID and each industry, we need to use a regression. 
+```{r}
+par(mar=c(3,3,3,0))
+BEA_line <- BEA_reg |>
+  group_by(Description, year)|>
+  summarize(GDP = mean(GDP, na.rm = TRUE))|>
+  ggplot(mapping = aes(x = year, y = GDP/1000000, color = Description, group = Description))+
+  geom_line()+
+  geom_point()+
+  theme(legend.position = "bottom", legend.text = element_text(size = 4), legend.key.height= unit(1, 'mm'),
+        legend.key.width= unit(1, 'mm'))+
+  labs(
+    title = "Difference in GDP Between 2019 and 2020 by Industry",
+    x = "Year",
+    y = "Millions of Dollars in GDP"
+  )
+  
+BEA_line
+```
+
+
+
 ```{r}
 library(modelsummary)
 fit = lm(GDP ~ as.factor(year) * Description, data = BEA_reg)
-modelsummary(fit, stars = TRUE)
+modelsummary(fit, stars = TRUE, coef_rename = 
+               c("as.factor(year)2020" = "2020",
+                 "DescriptionAdministrative and support and waste management and remediation services" = "Administrative and support and waste management and remediation services",
+                 "DescriptionAgriculture, forestry, fishing and hunting" = "Agriculture, forestry, fishing and hunting",
+                 "DescriptionArts, entertainment, and recreation" = "Arts, entertainment, and recreation",
+                 "DescriptionArts, entertainment, recreation, accommodation, and food services" = "Arts, entertainment, recreation, accommodation, and food services",
+                 "DescriptionConstruction" = "Construction",
+                 "DescriptionDurable goods manufacturing" = "Durable goods manufacturing",
+                 "DescriptionEducational services" = "Educational services",
+                 "DescriptionEducational services, health care, and social assistance" = "Educational services, health care, and social assistance",
+                 "DescriptionFinance and insurance" = "Finance and insurance",
+                 "DescriptionFinance, insurance, real estate, rental, and leasing" = "Finance, insurance, real estate, rental, and leasing",
+                 "DescriptionGovernment and government enterprises" = "Government and government enterprises",
+                 "DescriptionHealth care and social assistance" = "Health care and social assistance",
+                 "DescriptionInformation" = "Information",
+                 "DescriptionManagement of companies and enterprises" = "Management of companies and enterprises",
+                 "DescriptionManufacturing" = "Manufacturing",
+                 "DescriptionManufacturing and information" = "Manufacturing and information",
+                 "DescriptionMining, quarrying, and oil and gas extraction" = "Mining, quarrying, and oil and gas extraction",
+                 "DescriptionNatural resources and mining" = "Natural resources and mining",
+                 "DescriptionNondurable goods manufacturing" = "Nondurable goods manufacturing",
+                 "DescriptionOther services (except government and government enterprises)" = "Other services (except government and government enterprises)",
+                 "DescriptionProfessional and business services" = "Professional and business services",
+                 "DescriptionProfessional, scientific, and technical services" = "Professional, scientific, and technical services",
+                 "DescriptionReal estate and rental and leasing" = "Real estate and rental and leasing",
+                 "DescriptionRetail trade" = "Retail trade",
+                 "DescriptionTrade" = "Trade",
+                 "DescriptionTransportation and utilities" = "Transportation and utilities",
+                 "DescriptionTransportation and warehousing" = "Transportation and warehousing",
+                 "DescriptionUtilities" = "Utilities",
+                 "DescriptionWholesale trade" = "Wholesale trade"
+                 ), coef_omit = 3:31)
 ```
+
 
 
 
 ##Analysis
+The results of this study seem to be inconclusive. Between the bar graph comparing GDP's of industries across 2019 and 2020, the line graph highlighting the relationship of year and industry GDP, and the regression, none of them seem to support the hypothesis. According to this regression, there are actually very few industries that seem to have been negatively affected by the onset of COVID-19. The only negative correlations the regression presents are in the Art, entertainment, recreation, accommodation, and food services and Finance, insurance, real estate, rental, and leasing industries. Even these, though, cannot be assumed to have been directly affected by COVID since the level of statistical significance is greater than p < 0.1 in all cases. In the case of this study, then, the null hypothesis is proven and there is little to no correlation between the onset of COVID-19 and the GDP of any industry. Despite this, I believe that a future study has a much higher chance of proving this relationship. The data used in this study only provided information up to the fiscal year 2020. The fiscal year for the federal government begins in October and ends in September. Since the BEA is a federal organization, it is safe to assume they abide by the same standard. COVID did not reach Missouri until March of 2020, and did not see a 7-day average of over 5000 cases until November of 2020. Since it is primarily a conservative state, policy reactions to the pandemic lagged behind other states and thus industry was affected little until it began peaking in January of 2022. I believe that a repeated study that included the industry data from 2021 and 2022, then, would show a much stronger relationship to COVID than this one did.
+
