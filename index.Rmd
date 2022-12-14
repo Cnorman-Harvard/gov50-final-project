@@ -16,15 +16,22 @@ library(tidyverse)
 library(ggplot2)
 ```
 
-##Data Source
 
+
+
+
+## Data Source
 This data was collected and made publicly available by the Bureau of Economic Analysis (BEA). Most of this data comes from 360 surveys and other data collections sponsored by other Federal agencies, that is, from statistical agencies, aggregate tax data sources, administrative and regulatory sources, and private trade sources. The key independent variable (industries in Missouri) were gathered via federal survey. The key dependent variable (GDP by industry) was collected in the same manner. Since this data was collected via state-sponsored survey, and was mandatory, it is almost certain that this data source is trustworthy and accurate. However, in this data set there exists several values of (D), which indicate a suppression of data for the purpose of concealing confidential information of business establishments that could prove harmful if leaked publicly. For the purposes of this study, (D) values have been replaced with NA to strategically omit them from any conclusions. It is important to note that the years provided in this data set are Fiscal years and not calendar years.
-```{r}
+
+
+
+
+```{r, echo = FALSE}
 BEA <- read_csv("BEA.csv")
 BEA
 ```
 
-```{r}
+```{r, echo = FALSE}
 BEA <- BEA |>
   select(GeoName, Description:'2020')|>
   type_convert(na = "(D)",col_types = (cols(
@@ -36,24 +43,31 @@ BEA <- BEA |>
     '2020' = col_double()
   )))
 ```
-```{r}
+```{r, echo = FALSE}
 BEA_reg <- BEA |>
   select(GeoName, Description, `2019`, `2020`)|>
   filter(Description != "All industry total", Description != "Private industries", Description != "Private services-providing industries 3/", Description != "Private goods-producing industries 2/", GeoName != "Missouri")|>
   pivot_longer(cols = c(`2019`, `2020`), names_to = "year", values_to = "GDP")
-BEA_reg
 ```
+
+
+
+
 Here, you can see the range of industries this study covers and their values, relative to each other and the year.
 
 
-```{r}
+
+
+
+
+```{r, echo = FALSE}
 yearly_gdp_plot <- BEA_reg|>
   ggplot(mapping = aes(x = Description, y = GDP / 1000000, fill = factor(year, levels = c("2019", "2020")))) +
   geom_col(position = "dodge")+
   theme(axis.text.x=element_text(angle=45,hjust=1)) +
   labs(
     x = "Industry",
-    y = "GDP in Millions of Dollars",
+    y = "GDP in $Mil",
     fill = "Year"
   ) +
   scale_fill_discrete(
@@ -61,29 +75,36 @@ yearly_gdp_plot <- BEA_reg|>
   )
 yearly_gdp_plot
 ```
-The purpose of this graph is to highlight the trends of each industry on a closer level between 2019 and 2020. As you can see, there are several examples of both upwards and downwards trends. To further analyze the relationship between COVID and each industry, we need to use a regression. 
-```{r}
-par(mar=c(3,3,3,0))
+
+
+
+
+The purpose of this graph is to highlight the trends of each industry on a closer level between 2019 and 2020. As you can see, there are several examples of both upwards and downwards trends. To further analyze the relationship between COVID and each industry, we need to use a regression.
+
+
+
+
+```{r, echo = FALSE}
 BEA_line <- BEA_reg |>
   group_by(Description, year)|>
   summarize(GDP = mean(GDP, na.rm = TRUE))|>
   ggplot(mapping = aes(x = year, y = GDP/1000000, color = Description, group = Description))+
   geom_line()+
   geom_point()+
-  theme(legend.position = "bottom", legend.text = element_text(size = 4), legend.key.height= unit(1, 'mm'),
+  theme(legend.position = "bottom", legend.text = element_text(size = 4.75), legend.key.height= unit(1, 'mm'),
         legend.key.width= unit(1, 'mm'))+
   labs(
     title = "Difference in GDP Between 2019 and 2020 by Industry",
     x = "Year",
     y = "Millions of Dollars in GDP"
-  )
+  )+guides(colour=guide_legend(nrow=11))
   
 BEA_line
 ```
 
 
 
-```{r}
+```{r, echo = FALSE}
 library(modelsummary)
 fit = lm(GDP ~ as.factor(year) * Description, data = BEA_reg)
 modelsummary(fit, stars = TRUE, coef_rename = 
@@ -123,6 +144,7 @@ modelsummary(fit, stars = TRUE, coef_rename =
 
 
 
-##Analysis
+## Analysis
+
 The results of this study seem to be inconclusive. Between the bar graph comparing GDP's of industries across 2019 and 2020, the line graph highlighting the relationship of year and industry GDP, and the regression, none of them seem to support the hypothesis. According to this regression, there are actually very few industries that seem to have been negatively affected by the onset of COVID-19. The only negative correlations the regression presents are in the Art, entertainment, recreation, accommodation, and food services and Finance, insurance, real estate, rental, and leasing industries. Even these, though, cannot be assumed to have been directly affected by COVID since the level of statistical significance is greater than p < 0.1 in all cases. In the case of this study, then, the null hypothesis is proven and there is little to no correlation between the onset of COVID-19 and the GDP of any industry. Despite this, I believe that a future study has a much higher chance of proving this relationship. The data used in this study only provided information up to the fiscal year 2020. The fiscal year for the federal government begins in October and ends in September. Since the BEA is a federal organization, it is safe to assume they abide by the same standard. COVID did not reach Missouri until March of 2020, and did not see a 7-day average of over 5000 cases until November of 2020. Since it is primarily a conservative state, policy reactions to the pandemic lagged behind other states and thus industry was affected little until it began peaking in January of 2022. I believe that a repeated study that included the industry data from 2021 and 2022, then, would show a much stronger relationship to COVID than this one did.
 

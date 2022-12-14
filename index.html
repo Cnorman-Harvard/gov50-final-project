@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["BEA.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-10-1.png","index_files/figure-html5/unnamed-chunk-5-1.png","index_files/figure-html5/unnamed-chunk-7-1.png","index_files/figure-html5/unnamed-chunk-8-1.png","index_files/header-attrs-2.16/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["BEA.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-10-1.png","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/figure-html5/unnamed-chunk-5-1.png","index_files/figure-html5/unnamed-chunk-7-1.png","index_files/figure-html5/unnamed-chunk-8-1.png","index_files/header-attrs-2.16/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/kePrint-0.0.1/kePrint.js","index_files/lightable-0.0.1/lightable.css","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1473,6 +1473,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   <!--/radix_placeholder_distill-->
   <script src="index_files/header-attrs-2.16/header-attrs.js"></script>
+  <script src="index_files/kePrint-0.0.1/kePrint.js"></script>
+  <link href="index_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
   <script src="index_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="index_files/popper-2.6.0/popper.min.js"></script>
   <link href="index_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -1518,15 +1520,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-article">
 <h2 id="project-background">Project Background</h2>
-<p>How has the main industry in counties of Missouri affected the magnitude of loss in GDP? In this study, I plan to analyze data collected by the Bureau of Economic Analysis in the years leading up to and during the COVID19 epidemic. I will split counties up based on their most prevalent industries and analyze each counties loss of GDP for their main industry, compared to their five year average in the years leading up to the pandemic. I expect that regions with main industries such as manufacturing and retail will sink the lowest and have the slowest comeback as they rely on a lot of interpersonal interaction and a high volume of workers. Meanwhile, I expect industries like agriculture, mining and construction will display little sign of disturbance and may even prosper compared to other industries. On the topic of healthcare, I expect it to be an outlier from the start, but I am interested to see how exactly it was affected. In the data, each county is specified via a GeoFips code and a GeoName, and each of those counties has the GDP value of each industry specified in separate columns. To start, I will need to determine the top industry in each county by finding the max GDP value among all of the counties industries. I will also display the levels of rise/fall of GDP among each industry in the state overall, for comparison. The top industry of each county will be the explanatory variable. The observation variables will be the values of these industries between the years leading up to 2020 and 2020 itself. By comparing the rise and fall of chained GDP among industries, I will be able to determine which of these industries were affected the least and most. My hypothesis would be supported if the data showed that industries like manufacturing and retail had the highest decrease (proportional to higher years) in GDP among the counties that specialized in it, while areas that specialized in industries like agriculture or mining suffered the least proportional decrease.</p>
+<p>How has the pandemic affected different industries in Missouri? In this study, I plan to analyze data collected by the Bureau of Economic Analysis in the years leading up to and during the COVID19 epidemic. I will split GDP revenue up by industry and determine how that GDP volume changed between 2019 and 2020 (the first year the pandemic impacted Missouri). I expect that industries such as manufacturing and retail will sink the lowest in response to the pandemic as they rely on a lot of interpersonal interaction and a high volume of workers. Meanwhile, I expect industries like agriculture, mining and construction will display little sign of disturbance and may even prosper compared to other industries. On the topic of healthcare, I expect it to be an outlier from the start, but I am interested to see how exactly it was affected. In the data, each county is specified via a GeoFips code and a GeoName, and each of those counties has the GDP value of each industry specified in separate columns. To start, I will need to look at how each industry compares to others in terms of GDP and how that value varied among the years 2019 and 2020, using a bar graph. I will also display the levels of rise/fall of GDP among each industry in the state overall with a line graph, for easier comparison. The industry will be the explanatory variable. The observation variables will be the values of these industries between 2019 and 2020 itself. By comparing the rise and fall of chained GDP among industries, I will be able to determine which of these industries were affected the least and most. I will then run a regression using these variables, to prove or disprove the statistical significance of the effect the pandemic had on Missouri industry. My hypothesis would be supported if the data showed that industries were effected significantly, and if industries like manufacturing and retail had the highest decrease (proportional to higher years) in GDP among the counties that specialized in it, while areas that specialized in industries like agriculture or mining suffered the least proportional decrease.</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
+<h2 id="data-source">Data Source</h2>
+<p>This data was collected and made publicly available by the Bureau of Economic Analysis (BEA). Most of this data comes from 360 surveys and other data collections sponsored by other Federal agencies, that is, from statistical agencies, aggregate tax data sources, administrative and regulatory sources, and private trade sources. The key independent variable (industries in Missouri) were gathered via federal survey. The key dependent variable (GDP by industry) was collected in the same manner. Since this data was collected via state-sponsored survey, and was mandatory, it is almost certain that this data source is trustworthy and accurate. However, in this data set there exists several values of (D), which indicate a suppression of data for the purpose of concealing confidential information of business establishments that could prove harmful if leaked publicly. For the purposes of this study, (D) values have been replaced with NA to strategically omit them from any conclusions. It is important to note that the years provided in this data set are Fiscal years and not calendar years.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>BEA</span> <span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='st'>"BEA.csv"</span><span class='op'>)</span></span>
-<span><span class='va'>BEA</span></span></code></pre>
-</div>
 <pre><code># A tibble: 4,069 × 10
    GeoFips GeoName  LineC…¹ Descr…² `2015` `2016` `2017` `2018` `2019`
    &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; 
@@ -1544,178 +1544,565 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 #   abbreviated variable names ¹​LineCode, ²​Description</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>BEA</span> <span class='op'>&lt;-</span> <span class='va'>BEA</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'>select</span><span class='op'>(</span><span class='va'>GeoName</span>, <span class='va'>Description</span><span class='op'>:</span><span class='st'>'2020'</span><span class='op'>)</span><span class='op'>|&gt;</span></span>
-<span>  <span class='fu'>type_convert</span><span class='op'>(</span>na <span class='op'>=</span> <span class='st'>"(D)"</span>,col_types <span class='op'>=</span> <span class='op'>(</span><span class='fu'>cols</span><span class='op'>(</span></span>
-<span>    <span class='st'>'2015'</span> <span class='op'>=</span> <span class='fu'>col_double</span><span class='op'>(</span><span class='op'>)</span>,</span>
-<span>    <span class='st'>'2016'</span> <span class='op'>=</span> <span class='fu'>col_double</span><span class='op'>(</span><span class='op'>)</span>,</span>
-<span>    <span class='st'>'2017'</span> <span class='op'>=</span> <span class='fu'>col_double</span><span class='op'>(</span><span class='op'>)</span>,</span>
-<span>    <span class='st'>'2018'</span> <span class='op'>=</span> <span class='fu'>col_double</span><span class='op'>(</span><span class='op'>)</span>,</span>
-<span>    <span class='st'>'2019'</span> <span class='op'>=</span> <span class='fu'>col_double</span><span class='op'>(</span><span class='op'>)</span>,</span>
-<span>    <span class='st'>'2020'</span> <span class='op'>=</span> <span class='fu'>col_double</span><span class='op'>(</span><span class='op'>)</span></span>
-<span>  <span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
-</div>
+
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>industry_by_county</span> <span class='op'>&lt;-</span> <span class='va'>BEA</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Description</span> <span class='op'>!=</span> <span class='st'>"All industry total"</span>, <span class='va'>Description</span> <span class='op'>!=</span> <span class='st'>"Private industries"</span>, <span class='va'>Description</span> <span class='op'>!=</span> <span class='st'>"Private services-providing industries 3/"</span>, <span class='va'>Description</span> <span class='op'>!=</span> <span class='st'>"Private goods-producing industries 2/"</span>, <span class='va'>GeoName</span> <span class='op'>!=</span> <span class='st'>"Missouri"</span><span class='op'>)</span></span>
-<span><span class='va'>industry_by_county</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>industry_by_county</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>=</span> <span class='fl'>0</span></span></code></pre>
+
 </div>
-</div>
+<p>Here, you can see the range of industries this study covers and their values, relative to each other and the year.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>industry_by_county</span> <span class='op'>&lt;-</span> <span class='va'>industry_by_county</span><span class='op'>|&gt;</span></span>
-<span> <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>GeoName</span><span class='op'>)</span><span class='op'>|&gt;</span></span>
-<span>  <span class='fu'>slice</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/which.min.html'>which.max</a></span><span class='op'>(</span><span class='va'>`2019`</span><span class='op'>)</span><span class='op'>)</span></span>
-<span><span class='va'>industry_by_county</span></span></code></pre>
+<p><img src="index_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
 </div>
-<pre><code># A tibble: 115 × 8
-# Groups:   GeoName [115]
-   GeoName       Description `2015` `2016` `2017` `2018` `2019` `2020`
-   &lt;chr&gt;         &lt;chr&gt;        &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
- 1 Adair, MO     Educationa… 1.47e5 1.50e5 1.48e5 1.48e5 1.52e5 1.37e5
- 2 Andrew, MO    Natural re… 1.29e4 5.87e4 6.62e4 4.45e4 7.11e4 7.10e4
- 3 Atchison, MO  Natural re… 7.39e3 1.04e5 7.19e4 3.18e4 8.53e4 9.93e4
- 4 Audrain, MO   Manufactur… 3.82e5 3.76e5 3.34e5 2.73e5 2.42e5 2.24e5
- 5 Barry, MO     Manufactur… 4.64e5 4.55e5 4.70e5 4.58e5 5.07e5 4.84e5
- 6 Barton, MO    Agricultur… 5.97e4 1.07e5 1.22e5 8.90e4 7.37e4 1.46e5
- 7 Bates, MO     Real estat… 7.75e4 8.38e4 8.21e4 0      8.61e4 0     
- 8 Benton, MO    Finance, i… 1.21e5 1.08e5 9.95e4 1.07e5 1.01e5 9.95e4
- 9 Bollinger, MO Real estat… 4.39e4 4.51e4 0      0      4.42e4 0     
-10 Boone, MO     Government… 2.30e6 2.33e6 2.39e6 2.42e6 2.46e6 2.40e6
-# … with 105 more rows</code></pre>
-</div>
+<p>The purpose of this graph is to highlight the trends of each industry on a closer level between 2019 and 2020. As you can see, there are several examples of both upwards and downwards trends. To further analyze the relationship between COVID and each industry, we need to use a regression.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>industry_plot</span> <span class='op'>&lt;-</span> <span class='va'>industry_by_county</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'>ggplot</span><span class='op'>(</span>mapping <span class='op'>=</span> <span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Description</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'>geom_bar</span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span></span>
-<span>  <span class='fu'>theme</span><span class='op'>(</span>axis.text.x<span class='op'>=</span><span class='fu'>element_text</span><span class='op'>(</span>angle<span class='op'>=</span><span class='fl'>45</span>,hjust<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span>
-<span><span class='va'>industry_plot</span></span></code></pre>
-</div>
 <p><img src="index_files/figure-html5/unnamed-chunk-5-1.png" width="624" /></p>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>BEA_adj</span> <span class='op'>=</span> <span class='va'>BEA</span> <span class='op'>|&gt;</span></span>
-<span>   <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Description</span> <span class='op'>!=</span> <span class='st'>"All industry total"</span>, <span class='va'>Description</span> <span class='op'>!=</span> <span class='st'>"Private industries"</span>, <span class='va'>Description</span> <span class='op'>!=</span> <span class='st'>"Private services-providing industries 3/"</span>, <span class='va'>Description</span> <span class='op'>!=</span> <span class='st'>"Private goods-producing industries 2/"</span>, <span class='va'>GeoName</span> <span class='op'>!=</span> <span class='st'>"Missouri"</span><span class='op'>)</span></span>
-<span><span class='va'>BEA_adj</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>BEA_adj</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>=</span> <span class='fl'>0</span></span></code></pre>
+<table style="NAborder-bottom: 0; width: auto !important; margin-left: auto; margin-right: auto;" class="table">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:center;">
+Model 1
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:center;">
+98841.550
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(89790.082)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020
+</td>
+<td style="text-align:center;">
+−25054.834
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(126589.825)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Administrative and support and waste management and remediation services
+</td>
+<td style="text-align:center;">
+16398.993
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(183572.887)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Agriculture, forestry, fishing and hunting
+</td>
+<td style="text-align:center;">
+39696.461
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(170271.452)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Arts, entertainment, and recreation
+</td>
+<td style="text-align:center;">
+12711.571
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(179302.821)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Arts, entertainment, recreation, accommodation, and food services
+</td>
+<td style="text-align:center;">
+−5948.468
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(168792.765)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Construction
+</td>
+<td style="text-align:center;">
+26062.560
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(166914.614)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Durable goods manufacturing
+</td>
+<td style="text-align:center;">
+18245.727
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(168964.141)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Educational services
+</td>
+<td style="text-align:center;">
+19705.118
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(187824.757)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Educational services, health care, and social assistance
+</td>
+<td style="text-align:center;">
+11164.022
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(168084.446)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Finance and insurance
+</td>
+<td style="text-align:center;">
+31720.174
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(170458.871)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Finance, insurance, real estate, rental, and leasing
+</td>
+<td style="text-align:center;">
+−36286.774
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(167973.056)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Government and government enterprises
+</td>
+<td style="text-align:center;">
+21938.843
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(165051.627)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Health care and social assistance
+</td>
+<td style="text-align:center;">
+3823.002
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(188997.881)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Information
+</td>
+<td style="text-align:center;">
+11553.396
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(175407.758)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Management of companies and enterprises
+</td>
+<td style="text-align:center;">
+9764.370
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(194213.272)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Manufacturing
+</td>
+<td style="text-align:center;">
+17595.560
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(167406.346)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Manufacturing and information
+</td>
+<td style="text-align:center;">
+19303.309
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(174240.231)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Mining, quarrying, and oil and gas extraction
+</td>
+<td style="text-align:center;">
+24599.390
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(165051.627)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Natural resources and mining
+</td>
+<td style="text-align:center;">
+39107.735
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(170271.452)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Nondurable goods manufacturing
+</td>
+<td style="text-align:center;">
+28179.354
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(169511.863)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Other services (except government and government enterprises)
+</td>
+<td style="text-align:center;">
+16510.956
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(171257.733)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Professional and business services
+</td>
+<td style="text-align:center;">
+8614.230
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(173782.577)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Professional, scientific, and technical services
+</td>
+<td style="text-align:center;">
+6786.693
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(177422.125)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Real estate and rental and leasing
+</td>
+<td style="text-align:center;">
+63080.573
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(167580.783)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Retail trade
+</td>
+<td style="text-align:center;">
+23372.077
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(165051.627)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Trade
+</td>
+<td style="text-align:center;">
+26447.293
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(174932.228)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Transportation and utilities
+</td>
+<td style="text-align:center;">
+32350.011
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(189407.609)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Transportation and warehousing
+</td>
+<td style="text-align:center;">
+23989.966
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(181662.047)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Utilities
+</td>
+<td style="text-align:center;">
+25005.958
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(168785.870)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020:Wholesale trade
+</td>
+<td style="text-align:center;">
+26491.309
+</td>
+</tr>
+<tr>
+<td style="text-align:left;box-shadow: 0px 1px">
+</td>
+<td style="text-align:center;box-shadow: 0px 1px">
+(174932.228)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Num.Obs.
+</td>
+<td style="text-align:center;">
+5566
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+R2
+</td>
+<td style="text-align:center;">
+0.031
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+R2 Adj.
+</td>
+<td style="text-align:center;">
+0.020
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AIC
+</td>
+<td style="text-align:center;">
+167210.7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BIC
+</td>
+<td style="text-align:center;">
+167614.8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Log.Lik.
+</td>
+<td style="text-align:center;">
+−83544.338
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RMSE
+</td>
+<td style="text-align:center;">
+798766.54
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup></sup> + p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001
+</td>
+</tr>
+</tfoot>
+</table>
 </div>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>yearly_gdp</span> <span class='op'>&lt;-</span> <span class='va'>BEA_adj</span><span class='op'>|&gt;</span></span>
-<span>  <span class='fu'>mutate</span><span class='op'>(</span>five_yr_avg <span class='op'>=</span> <span class='op'>(</span><span class='va'>`2015`</span><span class='op'>+</span><span class='va'>`2016`</span><span class='op'>+</span><span class='va'>`2017`</span><span class='op'>+</span><span class='va'>`2018`</span><span class='op'>+</span><span class='va'>`2019`</span><span class='op'>)</span><span class='op'>/</span><span class='fl'>5</span><span class='op'>)</span><span class='op'>|&gt;</span></span>
-<span>  <span class='fu'>select</span><span class='op'>(</span><span class='va'>GeoName</span>, <span class='va'>Description</span>, <span class='va'>`2020`</span>, <span class='va'>five_yr_avg</span><span class='op'>)</span><span class='op'>|&gt;</span></span>
-<span>  <span class='fu'>pivot_longer</span><span class='op'>(</span>cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'2020'</span>, <span class='st'>'five_yr_avg'</span><span class='op'>)</span>, names_to <span class='op'>=</span> <span class='st'>'year'</span>, values_to <span class='op'>=</span> <span class='st'>"GDP"</span><span class='op'>)</span></span>
-<span><span class='va'>yearly_gdp</span></span></code></pre>
-</div>
-<pre><code># A tibble: 7,130 × 4
-   GeoName   Description                                  year     GDP
-   &lt;chr&gt;     &lt;chr&gt;                                        &lt;chr&gt;  &lt;dbl&gt;
- 1 Adair, MO Agriculture, forestry, fishing and hunting   2020  3.22e4
- 2 Adair, MO Agriculture, forestry, fishing and hunting   five… 6.27e3
- 3 Adair, MO Mining, quarrying, and oil and gas extracti… 2020  0     
- 4 Adair, MO Mining, quarrying, and oil and gas extracti… five… 0     
- 5 Adair, MO Utilities                                    2020  2.24e3
- 6 Adair, MO Utilities                                    five… 1.02e3
- 7 Adair, MO Construction                                 2020  2.02e4
- 8 Adair, MO Construction                                 five… 1.93e4
- 9 Adair, MO Manufacturing                                2020  1.30e5
-10 Adair, MO Manufacturing                                five… 1.03e5
-# … with 7,120 more rows</code></pre>
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>yearly_gdp_plot</span> <span class='op'>=</span> <span class='va'>yearly_gdp</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Description</span> <span class='op'>!=</span> <span class='st'>"Finance, insurance, real estate, rental, and leasing"</span><span class='op'>)</span><span class='op'>|&gt;</span></span>
-<span>  <span class='fu'>ggplot</span><span class='op'>(</span>mapping <span class='op'>=</span> <span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Description</span>, y <span class='op'>=</span> <span class='va'>GDP</span> <span class='op'>/</span> <span class='fl'>1000000</span>, fill <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>year</span>, levels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"five_yr_avg"</span>, <span class='st'>"2020"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'>geom_col</span><span class='op'>(</span>position <span class='op'>=</span> <span class='st'>"dodge"</span><span class='op'>)</span><span class='op'>+</span></span>
-<span>  <span class='fu'>theme</span><span class='op'>(</span>axis.text.x<span class='op'>=</span><span class='fu'>element_text</span><span class='op'>(</span>angle<span class='op'>=</span><span class='fl'>45</span>,hjust<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'>labs</span><span class='op'>(</span></span>
-<span>    y <span class='op'>=</span> <span class='st'>"GDP in Millions of Dollars"</span>,</span>
-<span>    fill <span class='op'>=</span> <span class='st'>"Time Frame"</span></span>
-<span>  <span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'>scale_fill_discrete</span><span class='op'>(</span></span>
-<span>    labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"2015-2019"</span>, <span class='st'>"2020"</span><span class='op'>)</span></span>
-<span>  <span class='op'>)</span></span>
-<span><span class='va'>yearly_gdp_plot</span></span></code></pre>
-</div>
-<p><img src="index_files/figure-html5/unnamed-chunk-7-1.png" width="624" /></p>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>yearly_gdp_best</span> <span class='op'>&lt;-</span> <span class='va'>industry_by_county</span> <span class='op'>|&gt;</span></span>
-<span>    <span class='fu'>mutate</span><span class='op'>(</span>five_yr_avg <span class='op'>=</span> <span class='op'>(</span><span class='va'>`2015`</span><span class='op'>+</span><span class='va'>`2016`</span><span class='op'>+</span><span class='va'>`2017`</span><span class='op'>+</span><span class='va'>`2018`</span><span class='op'>+</span><span class='va'>`2019`</span><span class='op'>)</span><span class='op'>/</span><span class='fl'>5</span><span class='op'>)</span><span class='op'>|&gt;</span></span>
-<span>  <span class='fu'>select</span><span class='op'>(</span><span class='va'>GeoName</span>, <span class='va'>Description</span>, <span class='va'>`2020`</span>, <span class='va'>five_yr_avg</span><span class='op'>)</span><span class='op'>|&gt;</span></span>
-<span>  <span class='fu'>pivot_longer</span><span class='op'>(</span>cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'2020'</span>, <span class='st'>'five_yr_avg'</span><span class='op'>)</span>, names_to <span class='op'>=</span> <span class='st'>'year'</span>, values_to <span class='op'>=</span> <span class='st'>"GDP"</span><span class='op'>)</span></span>
-<span><span class='va'>yearly_gdp_best</span></span></code></pre>
-</div>
-<pre><code># A tibble: 230 × 4
-# Groups:   GeoName [115]
-   GeoName      Description                               year     GDP
-   &lt;chr&gt;        &lt;chr&gt;                                     &lt;chr&gt;  &lt;dbl&gt;
- 1 Adair, MO    Educational services, health care, and s… 2020  1.37e5
- 2 Adair, MO    Educational services, health care, and s… five… 1.49e5
- 3 Andrew, MO   Natural resources and mining              2020  7.10e4
- 4 Andrew, MO   Natural resources and mining              five… 5.07e4
- 5 Atchison, MO Natural resources and mining              2020  9.93e4
- 6 Atchison, MO Natural resources and mining              five… 6.00e4
- 7 Audrain, MO  Manufacturing and information             2020  2.24e5
- 8 Audrain, MO  Manufacturing and information             five… 3.21e5
- 9 Barry, MO    Manufacturing and information             2020  4.84e5
-10 Barry, MO    Manufacturing and information             five… 4.71e5
-# … with 220 more rows</code></pre>
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>yearly_gdp_best_plot</span> <span class='op'>=</span> <span class='va'>yearly_gdp_best</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Description</span> <span class='op'>!=</span> <span class='st'>"Finance, insurance, real estate, rental, and leasing"</span><span class='op'>)</span><span class='op'>|&gt;</span></span>
-<span>  <span class='fu'>ggplot</span><span class='op'>(</span>mapping <span class='op'>=</span> <span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Description</span>, y <span class='op'>=</span> <span class='va'>GDP</span> <span class='op'>/</span> <span class='fl'>1000000</span>, fill <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>year</span>, levels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"five_yr_avg"</span>, <span class='st'>"2020"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'>geom_col</span><span class='op'>(</span>position <span class='op'>=</span> <span class='st'>"dodge"</span><span class='op'>)</span><span class='op'>+</span></span>
-<span>  <span class='fu'>theme</span><span class='op'>(</span>axis.text.x<span class='op'>=</span><span class='fu'>element_text</span><span class='op'>(</span>angle<span class='op'>=</span><span class='fl'>45</span>,hjust<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'>labs</span><span class='op'>(</span></span>
-<span>    y <span class='op'>=</span> <span class='st'>"GDP in Millions of Dollars"</span>,</span>
-<span>    fill <span class='op'>=</span> <span class='st'>"Time Frame"</span></span>
-<span>  <span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'>scale_fill_discrete</span><span class='op'>(</span></span>
-<span>    labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"2015-2019"</span>, <span class='st'>"2020"</span><span class='op'>)</span></span>
-<span>  <span class='op'>)</span></span>
-<span><span class='va'>yearly_gdp_best_plot</span></span></code></pre>
-</div>
-<p><img src="index_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>BEA_yrs</span> <span class='op'>&lt;-</span> <span class='va'>BEA_adj</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'>pivot_longer</span><span class='op'>(</span>cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'2015'</span><span class='op'>:</span><span class='st'>'2020'</span><span class='op'>)</span>, names_to <span class='op'>=</span> <span class='st'>'year'</span>, values_to <span class='op'>=</span> <span class='st'>'GDP'</span><span class='op'>)</span><span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>GDP</span> <span class='op'>!=</span> <span class='fl'>0</span><span class='op'>)</span></span>
-<span><span class='va'>BEA_yrs</span></span></code></pre>
-</div>
-<pre><code># A tibble: 16,288 × 4
-   GeoName   Description                                year    GDP
-   &lt;chr&gt;     &lt;chr&gt;                                      &lt;chr&gt; &lt;dbl&gt;
- 1 Adair, MO Agriculture, forestry, fishing and hunting 2015   2181
- 2 Adair, MO Agriculture, forestry, fishing and hunting 2016   6865
- 3 Adair, MO Agriculture, forestry, fishing and hunting 2017   8394
- 4 Adair, MO Agriculture, forestry, fishing and hunting 2018    801
- 5 Adair, MO Agriculture, forestry, fishing and hunting 2019  13108
- 6 Adair, MO Agriculture, forestry, fishing and hunting 2020  32172
- 7 Adair, MO Utilities                                  2016   1127
- 8 Adair, MO Utilities                                  2018   1917
- 9 Adair, MO Utilities                                  2019   2045
-10 Adair, MO Utilities                                  2020   2242
-# … with 16,278 more rows</code></pre>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>BEA_scatter</span> <span class='op'>&lt;-</span> <span class='va'>BEA_yrs</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'>ggplot</span><span class='op'>(</span>mapping <span class='op'>=</span> <span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>year</span>, y <span class='op'>=</span> <span class='va'>GDP</span><span class='op'>/</span><span class='fl'>1000000</span>, color <span class='op'>=</span> <span class='va'>Description</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'>geom_point</span><span class='op'>(</span><span class='op'>)</span></span>
-<span><span class='va'>BEA_scatter</span></span></code></pre>
-</div>
-<p><img src="index_files/figure-html5/unnamed-chunk-10-1.png" width="624" /></p>
-</div>
-<p>##Analysis</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h2 id="analysis">Analysis</h2>
+<p>The results of this study seem to be inconclusive. Between the bar graph comparing GDP’s of industries across 2019 and 2020, the line graph highlighting the relationship of year and industry GDP, and the regression, none of them seem to support the hypothesis. According to this regression, there are actually very few industries that seem to have been negatively affected by the onset of COVID-19. The only negative correlations the regression presents are in the Art, entertainment, recreation, accommodation, and food services and Finance, insurance, real estate, rental, and leasing industries. Even these, though, cannot be assumed to have been directly affected by COVID since the level of statistical significance is greater than p &lt; 0.1 in all cases. In the case of this study, then, the null hypothesis is proven and there is little to no correlation between the onset of COVID-19 and the GDP of any industry. Despite this, I believe that a future study has a much higher chance of proving this relationship. The data used in this study only provided information up to the fiscal year 2020. The fiscal year for the federal government begins in October and ends in September. Since the BEA is a federal organization, it is safe to assume they abide by the same standard. COVID did not reach Missouri until March of 2020, and did not see a 7-day average of over 5000 cases until November of 2020. Since it is primarily a conservative state, policy reactions to the pandemic lagged behind other states and thus industry was affected little until it began peaking in January of 2022. I believe that a repeated study that included the industry data from 2021 and 2022, then, would show a much stronger relationship to COVID than this one did.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
